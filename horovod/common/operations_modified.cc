@@ -176,8 +176,8 @@ OperationManager* CreateOperationManager(HorovodGlobalState& state) {
         new MPIHierarchicalAllgather(&mpi_context, &state)));
 
 #if HOROVOD_GPU_ALLTOALL == 'M'
-    alltoall_ops.push_back(std::shared_ptr<AlltoallOp>(
-        new MPI_GPUAlltoall(&mpi_context, &gpu_context, &state)));
+    /*alltoall_ops.push_back(std::shared_ptr<AlltoallOp>(
+        new MPI_GPUAlltoall(&mpi_context, &gpu_context, &state)));*/
 #endif
   }
 #endif
@@ -188,52 +188,52 @@ OperationManager* CreateOperationManager(HorovodGlobalState& state) {
 #endif
 
 #if HAVE_NCCL && HOROVOD_GPU_BROADCAST == 'N'
-    broadcast_ops.push_back(
-        std::shared_ptr<BroadcastOp>(new NCCLBroadcast(&nccl_context, &gpu_context, &state)));
+    /*broadcast_ops.push_back(
+        std::shared_ptr<BroadcastOp>(new NCCLBroadcast(&nccl_context, &gpu_context, &state)));*/
 #endif
 
 #if HAVE_NCCL && HOROVOD_GPU_ALLGATHER == 'N'
-  allgather_ops.push_back(std::shared_ptr<AllgatherOp>(
-      new NCCLAllgather(&nccl_context, &gpu_context, &state)));
+  /*allgather_ops.push_back(std::shared_ptr<AllgatherOp>(
+      new NCCLAllgather(&nccl_context, &gpu_context, &state)));*/
 #endif
 
 #if HAVE_NCCL && HOROVOD_GPU_ALLTOALL == 'N'
-  alltoall_ops.push_back(std::shared_ptr<AlltoallOp>(
-      new NCCLAlltoall(&nccl_context, &gpu_context, &state)));
+  /*alltoall_ops.push_back(std::shared_ptr<AlltoallOp>(
+      new NCCLAlltoall(&nccl_context, &gpu_context, &state)));*/
 #endif
 
 #if HAVE_GLOO
-  if (gloo_context.IsEnabled()) {
-    //allreduce_ops.push_back(
-        //std::shared_ptr<AllreduceOp>(new GlooAllreduce(&gloo_context, &state)));
+  /*if (gloo_context.IsEnabled()) {
+    allreduce_ops.push_back(
+        std::shared_ptr<AllreduceOp>(new GlooAllreduce(&gloo_context, &state)));
     allgather_ops.push_back(
         std::shared_ptr<AllgatherOp>(new GlooAllgather(&gloo_context, &state)));
     broadcast_ops.push_back(
         std::shared_ptr<BroadcastOp>(new GlooBroadcast(&gloo_context, &state)));
     alltoall_ops.push_back(
         std::shared_ptr<AlltoallOp>(new GlooAlltoall(&gloo_context, &state)));
-  }
+  }*/
 #endif
 
 #if HAVE_CCL
-  if (state.cpu_operation == LibType::CCL) {
+  /*if (state.cpu_operation == LibType::CCL) {
     allreduce_ops.push_back(
         std::make_shared<CCLAllreduce>(&ccl_context, &state));
     allgather_ops.push_back(
         std::make_shared<CCLAllgather>(&ccl_context, &state));
     broadcast_ops.push_back(
         std::make_shared<CCLBroadcast>(&ccl_context, &state));
-  }
+  }*/
 #endif
 
 #if HAVE_MPI
   if (mpi_context.IsEnabled()){
     adasum_ops.push_back(
         std::shared_ptr<AllreduceOp>(new AdasumMPIAllreduceOp(&mpi_context, &state)));
+    /*allreduce_ops.push_back(
+        std::shared_ptr<AllreduceOp>(new MPIAllreduce(&mpi_context,&state)));*/
     allreduce_ops.push_back(
         std::shared_ptr<AllreduceOp>(new MPI_Multitask_Allreduce(&mpi_context,&state)));
-    allreduce_ops.push_back(
-        std::shared_ptr<AllreduceOp>(new MPIAllreduce(&mpi_context,&state)));
     allgather_ops.push_back(
         std::shared_ptr<AllgatherOp>(new MPIAllgather(&mpi_context, &state)));
     broadcast_ops.push_back(

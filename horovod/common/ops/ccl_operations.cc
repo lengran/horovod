@@ -120,7 +120,7 @@ Status CCLAllreduce::Execute(std::vector<TensorTableEntry>& entries, const Respo
 bool CCLAllreduce::Enabled(const ParameterManager& param_manager,
                            const std::vector<TensorTableEntry>& entries,
                            const Response& response) const {
-  return true;
+  return false;
 }
 
 void CCLAllreduce::MemcpyEntryInFusionBuffer(const std::vector<TensorTableEntry>& entries,
